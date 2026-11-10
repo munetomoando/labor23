@@ -71,11 +71,18 @@ code { font-family: var(--mono); font-size: .92em; background: var(--code-bg); p
 .howto ul { margin: 4px 0 0; padding-left: 1.2em; }
 @media (max-width: 720px) { .howto { grid-template-columns: 1fr; } }
 
-nav.toc ol { margin: 0; padding-left: 1.4em; columns: 2; column-gap: 32px; }
+nav.toc ol { margin: 0; padding-left: 0; list-style: none; counter-reset: sec; }
+nav.toc li { padding-left: 2.2em; position: relative; }
+nav.toc li:not(.tocpart)::before { counter-increment: sec; content: counter(sec) "."; position: absolute; left: .4em; color: var(--muted); }
+nav.toc li.tocpart { padding-left: 0; margin-top: 8px; font-family: "Zen Maru Gothic", sans-serif; font-weight: 900; color: var(--accent); }
 nav.toc li { font-weight: 700; }
-@media (max-width: 600px) { nav.toc ol { columns: 1; } }
+
 
 section { margin-top: 48px; }
+.part { margin: 64px 0 0; padding: 16px 20px; border: 2px solid var(--line); border-radius: 20px; background: var(--yellow); color: var(--on-fill); box-shadow: 5px 5px 0 var(--shadow); display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.part .partno { font-family: "Zen Maru Gothic", sans-serif; font-weight: 900; font-size: 15px; border: 2px solid var(--on-fill); border-radius: 999px; padding: 0 12px; background: #fff; }
+.part .parttitle { font-family: "Zen Maru Gothic", sans-serif; font-weight: 900; font-size: 22px; }
+.part .partnote { flex-basis: 100%; font-size: 14px; }
 h2 { font-size: 26px; font-weight: 900; line-height: 1.4; margin: 0 0 12px; padding-bottom: 6px; border-bottom: 4px solid var(--coral); display: inline-block; }
 h3 { font-size: 20px; font-weight: 700; margin: 32px 0 8px; }
 .prose { max-width: 72ch; }
@@ -177,25 +184,25 @@ footer { margin-top: 64px; color: var(--muted); font-size: 14px; border-top: 2px
   <header class="hero">
     <span class="date">2026年11月11日</span>
     <h1>データの活用と記述統計</h1>
-    <p>RとRStudioを使えるようにしたうえで、データの探し方を学び、都道府県別の最低賃金のデータを使って、平均値・中央値・ばらつき・加重平均といった記述統計を計算します。</p>
+    <p>まずブラウザ上でRを動かして、データの探し方と、都道府県別の最低賃金のデータを使った平均値・中央値の計算を体験します。そのあとRとRStudioを自分のパソコンに入れ、ばらつき・加重平均・グループ別の比較といった記述統計の続きを進めます。</p>
   </header>
 
   <div class="card" id="howto">
     <h2>このページの使い方</h2>
     <div class="howto">
-      <div class="local">
-        <h3>基本：自分のパソコンのRStudioで実行</h3>
-        <ul>
-          <li>コードの右上の「<b>コピー</b>」を押し、RStudioに貼り付けて実行する</li>
-          <li>今後のデータ分析はRStudioで行うので、今日のうちに使えるようにしておく</li>
-        </ul>
-      </div>
       <div class="web">
-        <h3>予備：うまくいかないときは「ブラウザで実行」</h3>
+        <h3>第1部：ブラウザで体験する</h3>
         <ul>
-          <li>インストールがうまくいかない人は、まずこのボタンで授業についていく（Rを入れなくても、このページ上でRが動く）</li>
+          <li>Rを入れなくても、このページ上でRが動く。コードの右上の「<b>▶ ブラウザで実行</b>」を押す</li>
           <li>初回は読み込みに数十秒かかる。動かなくなったら上の「再起動」</li>
           <li>ページを閉じると結果は消える。ファイルの保存はできない</li>
+        </ul>
+      </div>
+      <div class="local">
+        <h3>第2部・第3部：自分のパソコンのRStudioで</h3>
+        <ul>
+          <li>RとRStudioをインストールし、コードの右上の「<b>コピー</b>」を押して、RStudioに貼り付けて実行する</li>
+          <li>今後のデータ分析はRStudioで行うので、今日のうちに使えるようにしておく。インストールがうまくいかなかった人は、ブラウザ版のまま続けてよい</li>
         </ul>
       </div>
     </div>
@@ -204,14 +211,17 @@ footer { margin-top: 64px; color: var(--muted); font-size: 14px; border-top: 2px
 
   <nav class="card toc" aria-label="目次">
     <ol>
-      <li><a href="#install">RとRStudioのインストール</a></li>
+      <li class="tocpart">第1部　まずはブラウザでRを動かしてみる</li>
       <li><a href="#calc">Rを使ってみる（計算）</a></li>
-      <li><a href="#panes">RStudioの画面構成</a></li>
-      <li><a href="#script">Rスクリプトを使う</a></li>
       <li><a href="#why">平均だけでは分からない</a></li>
       <li><a href="#find">データを探す</a></li>
       <li><a href="#read">データを読み込む</a></li>
       <li><a href="#center">代表値：平均値・中央値・最頻値</a></li>
+      <li class="tocpart">第2部　RとRStudioを自分のパソコンに入れる</li>
+      <li><a href="#install">RとRStudioのインストール</a></li>
+      <li><a href="#panes">RStudioの画面構成</a></li>
+      <li><a href="#script">Rスクリプトを使う</a></li>
+      <li class="tocpart">第3部　記述統計の続き（RStudioで）</li>
       <li><a href="#spread">ばらつき</a></li>
       <li><a href="#weighted">単純平均と加重平均</a></li>
       <li><a href="#group">グループごとに比べる</a></li>
@@ -220,9 +230,161 @@ footer { margin-top: 64px; color: var(--muted); font-size: 14px; border-top: 2px
     </ol>
   </nav>
 
+  <div class="part" id="part1"><span class="partno">第1部</span><span class="parttitle">まずはブラウザでRを動かしてみる</span><span class="partnote">このページの「▶ ブラウザで実行」で進める。すでにRStudioが入っている人はRStudioでもよい</span></div>
+
   <!-- 1 -->
+  <section id="calc">
+    <h2>1. Rを使ってみる</h2>
+    <h3>簡単な計算</h3>
+    <div class="prose">
+      <p>まずはRに計算をさせてみよう。コードの右上の「<b>▶ ブラウザで実行</b>」を押すと、その下に結果が表示される（最初の1回は、Rの準備に数十秒かかる）。コードは書き換えて実行することもできる。</p>
+      <p>すでにRStudioが入っている人は、「コピー」を押してRStudioの左側（または左下）の<b>Console</b>に貼り付け、<span class="kbd">Enter</span>（Macなら <span class="kbd">Return</span>）キーを押す。</p>
+    </div>
+    <div class="code" data-where="Rのコード"><textarea rows="1">1+2</textarea></div>
+    <p class="prose">電卓では計算しにくい累乗（2の10乗）も簡単に入力できる。</p>
+    <div class="code" data-where="Rのコード"><textarea rows="1">2^10</textarea></div>
+    <p class="prose">足し算 <code>+</code>、引き算 <code>-</code>、掛け算 <code>*</code>、割り算 <code>/</code>、括弧付きの計算もできる。掛け算・割り算は足し算・引き算より先に計算される。</p>
+    <div class="code" data-where="Rのコード"><textarea rows="1">(2+3*6)/5</textarea></div>
+  </section>
+
+  <!-- 2 -->
+  <section id="why">
+    <h2>2. 平均だけでは分からない</h2>
+    <div class="prose">
+      <p>厚生労働省「2025（令和7）年 国民生活基礎調査」によると、2024年の<b>1世帯当たり平均所得金額は575万2千円</b>だった。では、日本の世帯の多くは575万円くらいの所得があるのだろうか。</p>
+    </div>
+    <div class="quizbox">
+      <span class="label">同じ調査の「所得の分布状況」</span>
+      <ul>
+        <li>所得を低い順に並べたときの真ん中（<b>中央値</b>）は <b>451万円</b></li>
+        <li>平均所得金額以下の世帯は <b>61.5％</b></li>
+        <li>最も多い階級は「200～300万円未満」で <b>13.5％</b></li>
+      </ul>
+      <p class="src">出所：厚生労働省「2025（令和7）年 国民生活基礎調査の概況」Ⅱ 各種世帯の所得等の状況（<a href="https://www.mhlw.go.jp/toukei/saikin/hw/k-tyosa/k-tyosa25/dl/03.pdf" target="_blank" rel="noopener">PDF</a>）。所得は税金・社会保険料を引く前の額。</p>
+    </div>
+    <div class="prose">
+      <p>平均より下の世帯が6割もあるのはなぜか。小さな例で確かめてみよう。10人のうち9人の年収が300万円、1人だけが1億円（10,000万円）だとする。</p>
+    </div>
+    <div class="code" data-where="Rのコード"><textarea rows="4"># 10人の年収（万円）：9人は300万円、1人だけ1億円
+income <- c(300, 300, 300, 300, 300, 300, 300, 300, 300, 10000)
+mean(income)    # 平均値
+median(income)  # 中央値</textarea></div>
+    <div class="prose">
+      <p><code>c()</code> は値をまとめて1つのデータ（ベクトル）にする関数、<code>&lt;-</code> は右の結果に左の名前をつける（代入する）記号である。<code>#</code> から後ろはコメントで、実行されない。</p>
+      <p>平均値は1,270万円になるが、10人中9人はそれよりずっと少ない。<b>平均値は極端に大きい値に引っ張られる</b>のに対して、中央値はほとんど影響を受けない。所得や資産のように、一部に非常に大きい値があるデータでは、平均値と中央値の両方を見ることが大切である。</p>
+    </div>
+    <div class="tip">
+      <span class="label">やってみよう</span>
+      1億円を10億円（<code>100000</code>）に変えて実行すると、平均値と中央値はそれぞれどう変わるだろうか。
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section id="find">
+    <h2>3. データを探す</h2>
+    <div class="prose">
+      <p>分析の出発点は、信頼できるデータを見つけることである。日本の公的統計は、まず次の場所で探すとよい。</p>
+      <ul>
+        <li><a href="https://www.e-stat.go.jp/" target="_blank" rel="noopener"><b>e-Stat（政府統計の総合窓口）</b></a>：各府省の統計をまとめて検索・ダウンロードできる。国民生活基礎調査、労働力調査、賃金構造基本統計調査などもここにある</li>
+        <li><b>各府省のWebサイト</b>：例えば最低賃金は、厚生労働省の「<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/minimumichiran/index.html" target="_blank" rel="noopener">地域別最低賃金の全国一覧</a>」で公表されている</li>
+        <li><b>研究機関のデータ</b>：例えばリクルートワークス研究所の<a href="https://www.works-i.com/surveys/panel-surveys.html" target="_blank" rel="noopener">全国就業実態パネル調査</a>は、主要な集計結果を<a href="https://jpsed-stat.com" target="_blank" rel="noopener">JPSED.stat</a>でWeb上から確認できる（例：7区分の年齢層ごとの年収はどの程度か？）</li>
+      </ul>
+    </div>
+    <div class="note">
+      <span class="label">データを見つけたら、必ず確かめること</span>
+      <ul>
+        <li><b>出所</b>：誰が作ったデータか。元の資料（一次資料）はどれか</li>
+        <li><b>時点</b>：いつの調査か。いつの値か（例：2025年調査の「所得」は2024年1年間の所得）</li>
+        <li><b>対象と単位</b>：個人か世帯か、円か千円か、時給か月給か</li>
+        <li><b>定義</b>：例えば「所得」は税金を引く前か後か</li>
+      </ul>
+    </div>
+    <h3>今日使うデータ：都道府県別の最低賃金（2026年度）</h3>
+    <div class="prose">
+      <p>最低賃金は、都道府県ごとに決まる「時給の下限」である。2026年度（令和8年度）の改定額を、厚生労働省の公表資料から47都道府県分まとめて、CSVファイルにした（<a href="minwage2026.csv" download>minwage2026.csv</a>）。CSVは、値をカンマで区切って並べたテキスト形式の表で、Excelでも開ける。</p>
+    </div>
+    <div class="tablewrap">
+      <table class="vars">
+        <thead><tr><th>列名</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td><code>code</code></td><td>都道府県コード（1＝北海道 … 47＝沖縄県）</td></tr>
+          <tr><td><code>pref</code></td><td>都道府県名</td></tr>
+          <tr><td><code>region</code></td><td>地方（北海道、東北、関東、中部、近畿、中国、四国、九州・沖縄）</td></tr>
+          <tr><td><code>rank</code></td><td>引上げ額の目安を示すときのランク（A・B・C。Aは東京など6都府県）</td></tr>
+          <tr><td><code>mw2026</code></td><td>2026年度の最低賃金（円／時間）</td></tr>
+          <tr><td><code>mw2025</code></td><td>2025年度の最低賃金（円／時間）</td></tr>
+          <tr><td><code>up</code></td><td>引上げ額（円）</td></tr>
+          <tr><td><code>effective</code></td><td>2026年度の額が発効する（使われ始める）日</td></tr>
+          <tr><td><code>workers_k</code></td><td>最低賃金が適用される労働者数（千人）</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="src">出所：厚生労働省「令和8年度地域別最低賃金額答申状況」（2026年9月3日公表）。適用労働者数は、宮崎労働局「宮崎県の最低賃金」（2026年4月）掲載の数値（労働調査会『最低賃金決定要覧』令和8年度版、令和3年経済センサス‐活動調査等に基づく推計）。</p>
+  </section>
+
+  <!-- 4 -->
+  <section id="read">
+    <h2>4. データを読み込む</h2>
+    <div class="prose">
+      <p><code>read.csv()</code> でCSVファイルを読み込み、<code>mw</code>（minimum wage の略）という名前をつける。インターネット上のファイルも、URLを指定すれば直接読み込める。</p>
+    </div>
+    <div class="code" data-where="Rのコード"><textarea rows="1">mw <- read.csv("https://munetomoando.github.io/labor23/minwage2026.csv")</textarea></div>
+    <p class="prose">何も表示されなければ成功である（RStudioでは、右上のEnvironmentに <code>mw</code>（47 obs. of 9 variables）が現れる）。まず中身を確かめよう。</p>
+    <div class="code" data-where="Rのコード" data-pre="mw"><textarea rows="1">head(mw)</textarea></div>
+    <div class="code" data-where="Rのコード" data-pre="mw"><textarea rows="1">str(mw)</textarea></div>
+    <p class="prose"><code>str()</code> では、47行（obs.）×9列（variables）であること、<code>int</code>（整数）、<code>num</code>（数値）、<code>chr</code>（文字）といった列の型がわかる。表の形で全体を見るときは <code>View()</code> を使う（<b>Vは大文字</b>）。</p>
+    <div class="code" data-where="Rのコード" data-pre="mw"><textarea rows="1">View(mw)</textarea></div>
+    <div class="prose">
+      <p>データの中の1つの列は <code>データ名$列名</code> で取り出せる。例えば <code>mw$mw2026</code> は、2026年度の最低賃金47個の並びである。</p>
+    </div>
+    <div class="code" data-where="Rのコード" data-pre="mw"><textarea rows="1">mw$mw2026</textarea></div>
+  </section>
+
+  <!-- 5 -->
+  <section id="center">
+    <h2>5. 代表値：平均値・中央値・最頻値</h2>
+    <div class="prose">
+      <p>データ全体を1つの数字で表す値を<b>代表値</b>という。</p>
+      <ul>
+        <li><b>平均値</b>（mean）：合計をデータの個数で割った値</li>
+        <li><b>中央値</b>（median）：小さい順に並べたときに真ん中にくる値。個数が偶数なら、真ん中の2つの平均</li>
+        <li><b>最頻値</b>（mode）：最も多く現れる値</li>
+      </ul>
+    </div>
+    <div class="code" data-where="Rのコード" data-pre="mw"><textarea rows="2">mean(mw$mw2026)    # 平均値
+median(mw$mw2026)  # 中央値</textarea></div>
+    <p class="prose">Rには最頻値を直接求める関数はないので、<code>table()</code> で値ごとの個数を数え、多い順に並べる。</p>
+    <div class="code" data-where="Rのコード" data-pre="mw"><textarea rows="1">sort(table(mw$mw2026), decreasing = TRUE)[1:3]   # 個数の多い上位3つ</textarea></div>
+    <div class="prose">
+      <p>平均値（約1,125円）より中央値（1,108円）が小さい。所得の例と同じく、東京や神奈川のように<b>高い一部の値が平均値を押し上げている</b>からである。実際に数えてみよう。<code>mw$mw2026 &gt; mean(mw$mw2026)</code> は、各都道府県が平均を上回るかどうかを TRUE／FALSE で返す。<code>sum()</code> はTRUEを1、FALSEを0として合計するので、上回る都道府県の数がわかる。</p>
+    </div>
+    <div class="code" data-where="Rのコード" data-pre="mw"><textarea rows="2">sum(mw$mw2026 > mean(mw$mw2026))     # 平均値を上回る都道府県の数
+sum(mw$mw2026 > median(mw$mw2026))   # 中央値を上回る都道府県の数</textarea></div>
+    <h3>最大・最小と、並べ替え</h3>
+    <div class="code" data-where="Rのコード" data-pre="mw"><textarea rows="4">max(mw$mw2026)                         # 最大値
+mw$pref[which.max(mw$mw2026)]          # 最大値の都道府県
+min(mw$mw2026)                         # 最小値
+mw$pref[which.min(mw$mw2026)]          # 最小値の都道府県</textarea></div>
+    <div class="code" data-where="Rのコード" data-pre="mw"><textarea rows="2"># 最低賃金の高い順に並べて、上位5つを表示
+head(mw[order(mw$mw2026, decreasing = TRUE), c("pref", "mw2026")], 5)</textarea></div>
+    <div class="prose">
+      <p><code>データ[行, 列]</code> の形で、行と列を選んで取り出せる。条件で行を選ぶこともできる。</p>
+    </div>
+    <div class="code" data-where="Rのコード" data-pre="mw"><textarea rows="1">mw[mw$pref == "東京都", ]</textarea></div>
+    <div class="tip">
+      <span class="label">やってみよう</span>
+      <ul>
+        <li><code>"東京都"</code> を自分の出身地（例：<code>"福岡県"</code>）に変えて、最低賃金と引上げ額を調べよう。<code>==</code> は「等しい」を表す（<code>=</code> 1つではない）</li>
+        <li>引上げ額 <code>up</code> の平均値・中央値・最大値はいくらか。最も大きく引き上げたのはどこか</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="part" id="part2"><span class="partno">第2部</span><span class="parttitle">RとRStudioを自分のパソコンに入れる</span><span class="partnote">うまくいかなかった人は、第3部もブラウザ版で続けてよい（授業後に相談すること）</span></div>
+
+  <!-- 6 -->
   <section id="install">
-    <h2>1. RとRStudioのインストール</h2>
+    <h2>6. RとRStudioのインストール</h2>
     <div class="prose">
       <p>この授業では、<b>R</b>（データ分析のためのプログラミング言語）と、Rを使いやすくするソフト <b>RStudio</b> を使う。インストールするものは2つあり、<b>R → RStudio の順に</b>入れる。どちらも無料で使える。</p>
     </div>
@@ -292,23 +454,9 @@ footer { margin-top: 64px; color: var(--muted); font-size: 14px; border-top: 2px
     </details>
   </section>
 
-  <!-- 2 -->
-  <section id="calc">
-    <h2>2. Rを使ってみる</h2>
-    <h3>簡単な計算</h3>
-    <div class="prose">
-      <p>RStudioを起動し、左側（または左下）の<b>Console</b>に命令を入力するのが基本。次のように書いて <span class="kbd">Enter</span>（Macなら <span class="kbd">Return</span>）キーを押すと、計算結果が表示される。</p>
-    </div>
-    <div class="code" data-where="Consoleに入力"><textarea rows="1">1+2</textarea></div>
-    <p class="prose">電卓では計算しにくい累乗（2の10乗）も簡単に入力できる。</p>
-    <div class="code" data-where="Consoleに入力"><textarea rows="1">2^10</textarea></div>
-    <p class="prose">足し算 <code>+</code>、引き算 <code>-</code>、掛け算 <code>*</code>、割り算 <code>/</code>、括弧付きの計算もできる。掛け算・割り算は足し算・引き算より先に計算される。</p>
-    <div class="code" data-where="Consoleに入力"><textarea rows="1">(2+3*6)/5</textarea></div>
-  </section>
-
-  <!-- 3 -->
+  <!-- 7 -->
   <section id="panes">
-    <h2>3. RStudioの画面構成</h2>
+    <h2>7. RStudioの画面構成</h2>
     <p class="prose">RStudioの画面は、おおむね次の4つの領域に分かれている（スクリプトを開いていないときは、左側全体がConsoleになる）。</p>
     <div class="panes" role="img" aria-label="RStudioの画面構成。左上がスクリプト、左下がConsole、右上がEnvironmentとHistory、右下がFiles・Plots・Packages・Help">
       <div class="pane src"><b>左上：スクリプト・データ</b>命令を書いて保存する場所。View() で開いたデータもここに出る</div>
@@ -318,9 +466,9 @@ footer { margin-top: 64px; color: var(--muted); font-size: 14px; border-top: 2px
     </div>
   </section>
 
-  <!-- 4 -->
+  <!-- 8 -->
   <section id="script">
-    <h2>4. Rスクリプトを使う</h2>
+    <h2>8. Rスクリプトを使う</h2>
     <div class="prose">
       <p>Consoleに命令を書いていくと、そのときは良くても、後で同じ作業をしたいときにまた最初から書き直すことになる。そこで、命令をまとめて保管し、再利用しやすくするために<b>Rスクリプト</b>を使う。</p>
     </div>
@@ -346,6 +494,14 @@ footer { margin-top: 64px; color: var(--muted); font-size: 14px; border-top: 2px
     </ol>
     <div class="code" data-where="スクリプトに書いて実行"><textarea rows="2">1+2
 4^3</textarea></div>
+    <h3>第1部のデータを、RStudioで読み込み直す</h3>
+    <div class="prose">
+      <p>ブラウザ版のRとRStudioのRは別々に動いているので、第1部で読み込んだ <code>mw</code> はRStudioにはない。次の3行をスクリプトに書き（「コピー」して貼り付けてよい）、まとめて選択して実行しよう。右上のEnvironmentに <code>mw</code> が現れ、Consoleに平均値と中央値が表示されれば成功である。</p>
+    </div>
+    <div class="code" data-where="スクリプトに書いて実行"><textarea rows="3">mw <- read.csv("https://munetomoando.github.io/labor23/minwage2026.csv")
+mean(mw$mw2026)
+median(mw$mw2026)</textarea></div>
+    <p class="prose">ここまで書いたら、スクリプトを保存しておこう（例：<code>20261111.R</code>）。第3部のコードも、このスクリプトに書き足していく。</p>
     <details class="shots">
       <summary>画面の例を見る</summary>
       <div class="shotgrid">
@@ -356,138 +512,7 @@ footer { margin-top: 64px; color: var(--muted); font-size: 14px; border-top: 2px
     </details>
   </section>
 
-  <!-- 5 -->
-  <section id="why">
-    <h2>5. 平均だけでは分からない</h2>
-    <div class="prose">
-      <p>厚生労働省「2025（令和7）年 国民生活基礎調査」によると、2024年の<b>1世帯当たり平均所得金額は575万2千円</b>だった。では、日本の世帯の多くは575万円くらいの所得があるのだろうか。</p>
-    </div>
-    <div class="quizbox">
-      <span class="label">同じ調査の「所得の分布状況」</span>
-      <ul>
-        <li>所得を低い順に並べたときの真ん中（<b>中央値</b>）は <b>451万円</b></li>
-        <li>平均所得金額以下の世帯は <b>61.5％</b></li>
-        <li>最も多い階級は「200～300万円未満」で <b>13.5％</b></li>
-      </ul>
-      <p class="src">出所：厚生労働省「2025（令和7）年 国民生活基礎調査の概況」Ⅱ 各種世帯の所得等の状況（<a href="https://www.mhlw.go.jp/toukei/saikin/hw/k-tyosa/k-tyosa25/dl/03.pdf" target="_blank" rel="noopener">PDF</a>）。所得は税金・社会保険料を引く前の額。</p>
-    </div>
-    <div class="prose">
-      <p>平均より下の世帯が6割もあるのはなぜか。小さな例で確かめてみよう。10人のうち9人の年収が300万円、1人だけが1億円（10,000万円）だとする。</p>
-    </div>
-    <div class="code" data-where="スクリプトに書いて実行"><textarea rows="4"># 10人の年収（万円）：9人は300万円、1人だけ1億円
-income <- c(300, 300, 300, 300, 300, 300, 300, 300, 300, 10000)
-mean(income)    # 平均値
-median(income)  # 中央値</textarea></div>
-    <div class="prose">
-      <p><code>c()</code> は値をまとめて1つのデータ（ベクトル）にする関数、<code>&lt;-</code> は右の結果に左の名前をつける（代入する）記号である。<code>#</code> から後ろはコメントで、実行されない。</p>
-      <p>平均値は1,270万円になるが、10人中9人はそれよりずっと少ない。<b>平均値は極端に大きい値に引っ張られる</b>のに対して、中央値はほとんど影響を受けない。所得や資産のように、一部に非常に大きい値があるデータでは、平均値と中央値の両方を見ることが大切である。</p>
-    </div>
-    <div class="tip">
-      <span class="label">やってみよう</span>
-      1億円を10億円（<code>100000</code>）に変えて実行すると、平均値と中央値はそれぞれどう変わるだろうか。
-    </div>
-  </section>
-
-  <!-- 6 -->
-  <section id="find">
-    <h2>6. データを探す</h2>
-    <div class="prose">
-      <p>分析の出発点は、信頼できるデータを見つけることである。日本の公的統計は、まず次の場所で探すとよい。</p>
-      <ul>
-        <li><a href="https://www.e-stat.go.jp/" target="_blank" rel="noopener"><b>e-Stat（政府統計の総合窓口）</b></a>：各府省の統計をまとめて検索・ダウンロードできる。国民生活基礎調査、労働力調査、賃金構造基本統計調査などもここにある</li>
-        <li><b>各府省のWebサイト</b>：例えば最低賃金は、厚生労働省の「<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/minimumichiran/index.html" target="_blank" rel="noopener">地域別最低賃金の全国一覧</a>」で公表されている</li>
-        <li><b>研究機関のデータ</b>：例えばリクルートワークス研究所の<a href="https://www.works-i.com/surveys/panel-surveys.html" target="_blank" rel="noopener">全国就業実態パネル調査</a>は、主要な集計結果を<a href="https://jpsed-stat.com" target="_blank" rel="noopener">JPSED.stat</a>でWeb上から確認できる（例：7区分の年齢層ごとの年収はどの程度か？）</li>
-      </ul>
-    </div>
-    <div class="note">
-      <span class="label">データを見つけたら、必ず確かめること</span>
-      <ul>
-        <li><b>出所</b>：誰が作ったデータか。元の資料（一次資料）はどれか</li>
-        <li><b>時点</b>：いつの調査か。いつの値か（例：2025年調査の「所得」は2024年1年間の所得）</li>
-        <li><b>対象と単位</b>：個人か世帯か、円か千円か、時給か月給か</li>
-        <li><b>定義</b>：例えば「所得」は税金を引く前か後か</li>
-      </ul>
-    </div>
-    <h3>今日使うデータ：都道府県別の最低賃金（2026年度）</h3>
-    <div class="prose">
-      <p>最低賃金は、都道府県ごとに決まる「時給の下限」である。2026年度（令和8年度）の改定額を、厚生労働省の公表資料から47都道府県分まとめて、CSVファイルにした（<a href="minwage2026.csv" download>minwage2026.csv</a>）。CSVは、値をカンマで区切って並べたテキスト形式の表で、Excelでも開ける。</p>
-    </div>
-    <div class="tablewrap">
-      <table class="vars">
-        <thead><tr><th>列名</th><th>内容</th></tr></thead>
-        <tbody>
-          <tr><td><code>code</code></td><td>都道府県コード（1＝北海道 … 47＝沖縄県）</td></tr>
-          <tr><td><code>pref</code></td><td>都道府県名</td></tr>
-          <tr><td><code>region</code></td><td>地方（北海道、東北、関東、中部、近畿、中国、四国、九州・沖縄）</td></tr>
-          <tr><td><code>rank</code></td><td>引上げ額の目安を示すときのランク（A・B・C。Aは東京など6都府県）</td></tr>
-          <tr><td><code>mw2026</code></td><td>2026年度の最低賃金（円／時間）</td></tr>
-          <tr><td><code>mw2025</code></td><td>2025年度の最低賃金（円／時間）</td></tr>
-          <tr><td><code>up</code></td><td>引上げ額（円）</td></tr>
-          <tr><td><code>effective</code></td><td>2026年度の額が発効する（使われ始める）日</td></tr>
-          <tr><td><code>workers_k</code></td><td>最低賃金が適用される労働者数（千人）</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="src">出所：厚生労働省「令和8年度地域別最低賃金額答申状況」（2026年9月3日公表）。適用労働者数は、宮崎労働局「宮崎県の最低賃金」（2026年4月）掲載の数値（労働調査会『最低賃金決定要覧』令和8年度版、令和3年経済センサス‐活動調査等に基づく推計）。</p>
-  </section>
-
-  <!-- 7 -->
-  <section id="read">
-    <h2>7. データを読み込む</h2>
-    <div class="prose">
-      <p><code>read.csv()</code> でCSVファイルを読み込み、<code>mw</code>（minimum wage の略）という名前をつける。インターネット上のファイルも、URLを指定すれば直接読み込める。</p>
-    </div>
-    <div class="code" data-where="スクリプトに書いて実行"><textarea rows="1">mw <- read.csv("https://munetomoando.github.io/labor23/minwage2026.csv")</textarea></div>
-    <p class="prose">何も表示されなければ成功である。RStudioでは、右上のEnvironmentに <code>mw</code>（47 obs. of 9 variables）が現れる。まず中身を確かめよう。</p>
-    <div class="code" data-where="Console／スクリプト" data-pre="mw"><textarea rows="1">head(mw)</textarea></div>
-    <div class="code" data-where="Console／スクリプト" data-pre="mw"><textarea rows="1">str(mw)</textarea></div>
-    <p class="prose"><code>str()</code> では、47行（obs.）×9列（variables）であること、<code>int</code>（整数）、<code>num</code>（数値）、<code>chr</code>（文字）といった列の型がわかる。表の形で全体を見るときは <code>View()</code> を使う（<b>Vは大文字</b>）。</p>
-    <div class="code" data-where="Console／スクリプト" data-pre="mw"><textarea rows="1">View(mw)</textarea></div>
-    <div class="prose">
-      <p>データの中の1つの列は <code>データ名$列名</code> で取り出せる。例えば <code>mw$mw2026</code> は、2026年度の最低賃金47個の並びである。</p>
-    </div>
-    <div class="code" data-where="Console／スクリプト" data-pre="mw"><textarea rows="1">mw$mw2026</textarea></div>
-  </section>
-
-  <!-- 8 -->
-  <section id="center">
-    <h2>8. 代表値：平均値・中央値・最頻値</h2>
-    <div class="prose">
-      <p>データ全体を1つの数字で表す値を<b>代表値</b>という。</p>
-      <ul>
-        <li><b>平均値</b>（mean）：合計をデータの個数で割った値</li>
-        <li><b>中央値</b>（median）：小さい順に並べたときに真ん中にくる値。個数が偶数なら、真ん中の2つの平均</li>
-        <li><b>最頻値</b>（mode）：最も多く現れる値</li>
-      </ul>
-    </div>
-    <div class="code" data-where="スクリプトに書いて実行" data-pre="mw"><textarea rows="2">mean(mw$mw2026)    # 平均値
-median(mw$mw2026)  # 中央値</textarea></div>
-    <p class="prose">Rには最頻値を直接求める関数はないので、<code>table()</code> で値ごとの個数を数え、多い順に並べる。</p>
-    <div class="code" data-where="スクリプトに書いて実行" data-pre="mw"><textarea rows="1">sort(table(mw$mw2026), decreasing = TRUE)[1:3]   # 個数の多い上位3つ</textarea></div>
-    <div class="prose">
-      <p>平均値（約1,125円）より中央値（1,108円）が小さい。所得の例と同じく、東京や神奈川のように<b>高い一部の値が平均値を押し上げている</b>からである。実際に数えてみよう。<code>mw$mw2026 &gt; mean(mw$mw2026)</code> は、各都道府県が平均を上回るかどうかを TRUE／FALSE で返す。<code>sum()</code> はTRUEを1、FALSEを0として合計するので、上回る都道府県の数がわかる。</p>
-    </div>
-    <div class="code" data-where="スクリプトに書いて実行" data-pre="mw"><textarea rows="2">sum(mw$mw2026 > mean(mw$mw2026))     # 平均値を上回る都道府県の数
-sum(mw$mw2026 > median(mw$mw2026))   # 中央値を上回る都道府県の数</textarea></div>
-    <h3>最大・最小と、並べ替え</h3>
-    <div class="code" data-where="スクリプトに書いて実行" data-pre="mw"><textarea rows="4">max(mw$mw2026)                         # 最大値
-mw$pref[which.max(mw$mw2026)]          # 最大値の都道府県
-min(mw$mw2026)                         # 最小値
-mw$pref[which.min(mw$mw2026)]          # 最小値の都道府県</textarea></div>
-    <div class="code" data-where="スクリプトに書いて実行" data-pre="mw"><textarea rows="2"># 最低賃金の高い順に並べて、上位5つを表示
-head(mw[order(mw$mw2026, decreasing = TRUE), c("pref", "mw2026")], 5)</textarea></div>
-    <div class="prose">
-      <p><code>データ[行, 列]</code> の形で、行と列を選んで取り出せる。条件で行を選ぶこともできる。</p>
-    </div>
-    <div class="code" data-where="スクリプトに書いて実行" data-pre="mw"><textarea rows="1">mw[mw$pref == "東京都", ]</textarea></div>
-    <div class="tip">
-      <span class="label">やってみよう</span>
-      <ul>
-        <li><code>"東京都"</code> を自分の出身地（例：<code>"福岡県"</code>）に変えて、最低賃金と引上げ額を調べよう。<code>==</code> は「等しい」を表す（<code>=</code> 1つではない）</li>
-        <li>引上げ額 <code>up</code> の平均値・中央値・最大値はいくらか。最も大きく引き上げたのはどこか</li>
-      </ul>
-    </div>
-  </section>
+  <div class="part" id="part3"><span class="partno">第3部</span><span class="parttitle">記述統計の続き（RStudioで）</span><span class="partnote">RStudioで、スクリプトに書いて実行していく</span></div>
 
   <!-- 9 -->
   <section id="spread">
@@ -884,7 +909,7 @@ function hintFor(t) {
     return `関数「${m[1]}」が見つかりません。綴り（大文字・小文字も区別されます）を確認し、その関数を含むパッケージを library() で読み込んだか確認しましょう。`;
   if ((m = /object ['‘]([^'’]+)['’] not found/.exec(t))) {
     let s = `「${m[1]}」という名前のデータや変数が見つかりません。綴りを確認し、それを作る行や library(...) を先に実行したか確認しましょう。`;
-    if (m[1] === 'mw') s += ' 「7. データを読み込む」の read.csv() の行を先に実行しましょう。';
+    if (m[1] === 'mw') s += ' 「4. データを読み込む」の read.csv() の行を先に実行しましょう。';
     if (m[1] === 'grads') s += ' 「12. 発展」の grads <- college_recent_grads の行を先に実行しましょう。';
     return s;
   }
