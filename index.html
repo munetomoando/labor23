@@ -273,9 +273,42 @@ median(income)  # 中央値</textarea></div>
       <p><code>c()</code> は値をまとめて1つのデータ（ベクトル）にする関数、<code>&lt;-</code> は右の結果に左の名前をつける（代入する）記号である。<code>#</code> から後ろはコメントで、実行されない。</p>
       <p>平均値は1,270万円になるが、10人中9人はそれよりずっと少ない。<b>平均値は極端に大きい値に引っ張られる</b>のに対して、中央値はほとんど影響を受けない。所得や資産のように、一部に非常に大きい値があるデータでは、平均値と中央値の両方を見ることが大切である。</p>
     </div>
+    <div class="warnbox">
+      <span class="label">c() を忘れると、間違った答えになる</span>
+      <code>mean(300, 300, 300, …, 10000)</code> のように <code>c()</code> を付けずに書くと、<code>mean()</code> は最初の1つ（300）だけをデータとして扱い、残りは別の設定とみなされてしまう。エラーも出ずに「300」と表示されるので、気づきにくい。複数の値は、必ず <code>c()</code> でまとめてから渡そう。
+    </div>
+
+    <h3>やってみよう：花巻東高校の卒業生の「平均年収」は？</h3>
+    <div class="prose">
+      <p>岩手県の花巻東高校は、大谷翔平選手と菊池雄星選手の母校である。この高校の卒業生2,000人の年収を考えてみよう。一般の卒業生1,998人の年収は、平均450万円・標準偏差150万円の正規分布に従う乱数で作った<b>架空のデータ</b>とし、そこに2人の推定年収を加える。</p>
+      <ul>
+        <li>大谷翔平選手：約200億円（Forbesによる2026年の推定。球団からの報酬約260万ドルとスポンサー収入など約1億2,500万ドル、計1億2,760万ドル）</li>
+        <li>菊池雄星選手：約33億円（エンゼルスとの3年総額6,300万ドルの契約。1年あたり2,100万ドル）</li>
+      </ul>
+      <p class="src">いずれも1ドル＝約157円で円に換算。卒業生の人数と一般の卒業生の年収は説明のための仮の設定である。</p>
+    </div>
+    <div class="code" data-where="Rのコード"><textarea rows="9"># 花巻東高校の卒業生2,000人の年収（万円）を作る（大谷・菊池の2人以外は架空のデータ）
+set.seed(1)                                   # 乱数の種を固定（誰が実行しても同じ結果になる）
+others <- rnorm(1998, mean = 450, sd = 150)   # 一般の卒業生1,998人：平均450、標準偏差150の正規分布
+others <- pmin(pmax(others, 200), 1500)       # 200万〜1,500万円の範囲に収める
+stars  <- c(2000000, 330000)                  # 大谷選手 約200億円、菊池選手 約33億円
+graduates <- c(others, stars)                 # 2,000人分をまとめる
+
+mean(graduates)    # 卒業生全体の平均値
+median(graduates)  # 卒業生全体の中央値</textarea></div>
+    <div class="prose">
+      <p>平均値は1,600万円を超えるが、中央値は約445万円である。「花巻東高校の卒業生の平均年収は1,600万円！」という見出しは、計算としては正しいが、卒業生の実態を表しているだろうか。平均値を上回る卒業生が何人いるか数えてみよう。</p>
+    </div>
+    <div class="code" data-where="Rのコード" data-pre="graduates"><textarea rows="3">sum(graduates > mean(graduates))   # 平均値を上回る卒業生の人数
+mean(others)                       # 2人を除いた平均値
+median(others)                     # 2人を除いた中央値</textarea></div>
     <div class="tip">
-      <span class="label">やってみよう</span>
-      1億円を10億円（<code>100000</code>）に変えて実行すると、平均値と中央値はそれぞれどう変わるだろうか。
+      <span class="label">考えてみよう</span>
+      <ul>
+        <li>2,000人のうち平均値を上回るのは、たった2人である。このようなデータの「真ん中」を表すには、平均値と中央値のどちらがふさわしいか</li>
+        <li>2人を除くと、平均値と中央値はほとんど同じになる。なぜだろうか</li>
+      </ul>
+      <p class="src" style="margin-top:6px">この例は、<a href="https://qiita.com/koji0705/items/b1fcac600aca3962ad16" target="_blank" rel="noopener">Qiitaの記事</a>のアイデアを参考にした。</p>
     </div>
   </section>
 
@@ -828,6 +861,7 @@ async function condText(o) {
 const PRE_CODE = {
   mw: 'mw <- read.csv("https://munetomoando.github.io/labor23/minwage2026.csv")',
   grads: 'grads <- fivethirtyeight::college_recent_grads',
+  graduates: 'set.seed(1); others <- pmin(pmax(rnorm(1998, mean = 450, sd = 150), 200), 1500); stars <- c(2000000, 330000); graduates <- c(others, stars)',
 };
 const PRE_NEEDS = { grads: ['fivethirtyeight'] };
 
