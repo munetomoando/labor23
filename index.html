@@ -224,25 +224,46 @@ footer { margin-top: 64px; color: var(--muted); font-size: 14px; border-top: 2px
   <section id="install">
     <h2>1. RとRStudioのインストール</h2>
     <div class="prose">
-      <p><a href="https://posit.co/download/rstudio-desktop/" target="_blank" rel="noopener">Positのサイト</a>から、<b>R → RStudio Desktop の順に</b>インストールする（手順の詳細は<a href="https://shunichinomura.github.io/install.html" target="_blank" rel="noopener">インストール方法（Windows・Mac）</a>を参照）。</p>
-      <ul>
-        <li>Rは無料。RStudioも無料版で十分</li>
-        <li>過去にインストール済みの人は、どちらも最新版にしておく</li>
-        <li>使うときは、<b>RStudioだけを立ち上げればよい</b>（Rは裏で自動的に動く）</li>
-      </ul>
+      <p>この授業では、<b>R</b>（データ分析のためのプログラミング言語）と、Rを使いやすくするソフト <b>RStudio</b> を使う。インストールするものは2つあり、<b>R → RStudio の順に</b>入れる。どちらも無料で使える。</p>
     </div>
+
+    <h3>手順1：Rをインストールする</h3>
+    <div class="prose">
+      <p>Rの公式サイト <a href="https://cran.r-project.org/" target="_blank" rel="noopener">CRAN（https://cran.r-project.org/）</a> を開き、自分のパソコンに合わせて選ぶ。</p>
+    </div>
+    <ol class="steps">
+      <li><b>Windowsの場合</b>：「Download R for Windows」→「base」→「Download R-4.x.x for Windows」の順に押し、ダウンロードしたファイルを実行する。途中の設定は、そのまま「次へ」で進めてよい</li>
+      <li><b>Macの場合</b>：「Download R for macOS」を押し、自分のMacに合うファイル（.pkg）をダウンロードして開く。Appleシリコン（M1以降）のMacは「arm64」、Intel製のMacは「x86_64」と書かれた方を選ぶ。どちらか分からないときは、左上のアップルメニュー →「このMacについて」の「チップ」（または「プロセッサ」）で確認できる</li>
+    </ol>
+
+    <h3>手順2：RStudio Desktopをインストールする</h3>
+    <div class="prose">
+      <p>次に、<a href="https://posit.co/download/rstudio-desktop/" target="_blank" rel="noopener">Positのサイト</a> から <b>RStudio Desktop</b> をインストールする。有料版もあるが、<b>無料版で十分</b>である。</p>
+    </div>
+    <ol class="steps">
+      <li>ページにある「Download RStudio Desktop for Windows」（Macでは「…for macOS」）のボタンを押す</li>
+      <li><b>Windows</b>：ダウンロードしたファイル（.exe）を実行し、画面の指示に従う</li>
+      <li><b>Mac</b>：ダウンロードしたファイル（.dmg）を開き、RStudioのアイコンを「アプリケーション」フォルダにドラッグする</li>
+    </ol>
+    <p class="prose">インストール方法が分かりにくければ、検索すれば手順を解説したサイトがたくさん見つかる（例：<a href="https://shunichinomura.github.io/install.html" target="_blank" rel="noopener">インストール方法（Windows・Mac）</a>）。</p>
+
+    <h3>手順3：確かめる</h3>
+    <ul class="prose">
+      <li>過去にインストール済みの人は、<b>RとRStudioのどちらも最新版</b>にしておく（古いままだと、パッケージが入らないことがある）</li>
+      <li>使うときは、<b>RStudioだけを立ち上げればよい</b>（Rは裏で自動的に動く）。RStudioの左側（Console）に「R version 4.…」と表示されれば準備完了である</li>
+    </ul>
     <div class="tip">
       <span class="label">つまずきやすい点</span>
       <ul>
-        <li>RStudioより先にRを入れる。順番が逆だと、RStudioがRを見つけられないことがある</li>
-        <li>Macは、Appleシリコン（M1以降）用とIntel用でRのインストーラーが分かれている。自分のMacに合う方を選ぶ（左上のアップルメニュー →「このMacについて」で確認できる）</li>
+        <li>RStudioを先に入れてしまい「Rが見つからない」と表示された場合は、Rをインストールしてから、RStudioを起動し直す</li>
+        <li>Macで「開発元を確認できないため開けません」と表示された場合は、アイコンを右クリック（またはcontrolキーを押しながらクリック）して「開く」を選ぶ</li>
         <li>どうしてもうまくいかないときは、このページの「ブラウザで実行」で今日の内容を進め、授業後に相談する</li>
       </ul>
     </div>
 
     <h3>（参考）iPadなどでRをインストールできない場合：Posit Cloud</h3>
     <div class="prose">
-      <p>タブレット端末などでRをインストールできない場合は、Webブラウザ上でRStudioを使える<a href="https://posit.cloud/" target="_blank" rel="noopener">Posit Cloud</a>を利用する。ただし無料版には、毎月25時間までといった利用制限がある。</p>
+      <p>iPadなどのタブレット端末でRをインストールできない場合は、Webブラウザ上でRStudioを使える<a href="https://posit.cloud/" target="_blank" rel="noopener">Posit Cloud</a>を利用する。ただし無料版には、毎月25時間までといった利用制限がある。</p>
       <p>初めて使う場合はサインアップが必要。</p>
     </div>
     <ol class="steps">
