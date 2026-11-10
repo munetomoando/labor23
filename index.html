@@ -459,9 +459,23 @@ head(mw[order(mw$mw2026, decreasing = TRUE), c("pref", "mw2026")], 5)</textarea>
 
     <h3>手順3：確かめる</h3>
     <ul class="prose">
-      <li>過去にインストール済みの人は、<b>RとRStudioのどちらも最新版</b>にしておく（古いままだと、パッケージが入らないことがある）</li>
       <li>使うときは、<b>RStudioだけを立ち上げればよい</b>（Rは裏で自動的に動く）。RStudioの左側（Console）に「R version 4.…」と表示されれば準備完了である</li>
     </ul>
+
+    <h3>すでにインストール済みの人：RとRStudioを最新版にする</h3>
+    <div class="prose">
+      <p>過去にインストールしたRやRStudioが古いままだと、パッケージが入らなかったり、このページと結果が違ったりすることがある。<b>どちらも最新版</b>にしておこう。</p>
+    </div>
+    <ol class="steps">
+      <li><b>今のバージョンを確かめる</b>：RStudioのConsoleで <code>R.version.string</code> と入力して実行すると、Rのバージョンが表示される。<a href="https://cran.r-project.org/" target="_blank" rel="noopener">CRAN</a>のページに表示されている最新版（2026年11月時点で4.6系）より古ければ、更新が必要である。RStudioのバージョンは、メニューの「Help」→「About RStudio」（Macでは「RStudio」→「About RStudio」）で確かめられる</li>
+      <li><b>Rを更新する</b>：Rには自動で更新する機能がないので、手順1と同じようにCRANから最新版をダウンロードして、上からインストールする。古いRを先に削除する必要はない。Windowsでは古いRも残るが、RStudioは通常、新しい方を使う（使われない場合は、RStudioの「Tools」→「Global Options」→「General」の「R version」で新しい方を選ぶ）</li>
+      <li><b>RStudioを更新する</b>：RStudioのメニューの「Help」→「Check for Updates」を押し、新しい版があれば案内に従う。または、手順2と同じようにPositのサイトから最新版をダウンロードして、上からインストールする</li>
+      <li><b>更新したら確かめる</b>：RStudioを起動し直して、Consoleの最初に表示される「R version 4.6.…」で、新しいRが使われていることを確かめる</li>
+    </ol>
+    <div class="note">
+      <span class="label">Rを更新したあとのパッケージ</span>
+      Rの「4.5」から「4.6」のように2つ目の数字が変わる更新をすると、以前に入れたパッケージは使えなくなる。<code>library()</code> で「there is no package called …」というエラーが出たら、<code>install.packages()</code> で入れ直せばよい。
+    </div>
     <div class="tip">
       <span class="label">つまずきやすい点</span>
       <ul>
