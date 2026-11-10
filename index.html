@@ -113,6 +113,11 @@ details.shots[open] > summary { margin-bottom: 8px; }
 .pane { border: 2px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 14px; line-height: 1.6; min-height: 92px; }
 .pane b { display: block; font-family: "Zen Maru Gothic", sans-serif; font-size: 15px; }
 .pane.src { background: var(--yellow-soft); }
+figure.shot { max-width: 760px; margin: 12px 0 16px; }
+.shotbox { position: relative; }
+.shotbox img { display: block; width: 100%; height: auto; border: 2px solid var(--line); border-radius: 12px; }
+.badge { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font-family: "Zen Maru Gothic", sans-serif; font-weight: 900; font-size: clamp(11px, 2vw, 16px); color: #1d2140; border: 2px solid #1d2140; border-radius: 999px; padding: 2px 12px; box-shadow: 3px 3px 0 #1d2140; }
+.badge.b1 { background: #ffe9a8; } .badge.b2 { background: #cfd9ff; } .badge.b3 { background: #bdf0d6; } .badge.b4 { background: #ffd2c9; }
 .pane.con { background: var(--accent-soft); }
 .pane.env { background: var(--pass-soft); }
 .pane.files { background: var(--coral-soft); }
@@ -519,12 +524,22 @@ head(mw[order(mw$mw2026, decreasing = TRUE), c("pref", "mw2026")], 5)</textarea>
   <!-- 7 -->
   <section id="panes">
     <h2>7. RStudioの画面構成</h2>
-    <p class="prose">RStudioの画面は、おおむね次の4つの領域に分かれている（スクリプトを開いていないときは、左側全体がConsoleになる）。</p>
+    <p class="prose">RStudioの画面は、おおむね次の4つの領域に分かれている（スクリプトを開いていないときは、左側全体がConsoleになる）。下の画面は、スクリプトを1つ開いた状態のRStudio（Mac）で、①〜④の番号がその下の説明と対応している。</p>
+    <figure class="shot">
+      <div class="shotbox">
+        <img src="rstudio_screen.png" width="1200" height="932" alt="RStudioの実際の画面。左上にスクリプト（Untitled1）、左下にConsole、右上にEnvironment、右下にFiles・Plots・Packages・Helpのタブが並んでいる">
+        <span class="badge b1" style="left:30%;top:36%">① スクリプト</span>
+        <span class="badge b3" style="left:73%;top:46%">② Environment</span>
+        <span class="badge b2" style="left:25%;top:83%">③ Console</span>
+        <span class="badge b4" style="left:74%;top:82%">④ Files・Plots・Help など</span>
+      </div>
+      <figcaption>実際のRStudioの画面（Macの例。WindowsやRStudioのバージョンによって、色やボタンの細部は少し異なる）</figcaption>
+    </figure>
     <div class="panes" role="img" aria-label="RStudioの画面構成。左上がスクリプト、左下がConsole、右上がEnvironmentとHistory、右下がFiles・Plots・Packages・Help">
-      <div class="pane src"><b>左上：スクリプト・データ</b>命令を書いて保存する場所。View() で開いたデータもここに出る</div>
-      <div class="pane env"><b>右上：Environment / History</b>作ったデータや変数の一覧、過去に実行した命令の履歴</div>
-      <div class="pane con"><b>左下：Console</b>命令を実行し、結果が表示される場所</div>
-      <div class="pane files"><b>右下：Files / Plots / Packages / Help</b>ファイル、描いた図、パッケージ、ヘルプ</div>
+      <div class="pane src"><b>① 左上：スクリプト・データ</b>命令を書いて保存する場所。View() で開いたデータもここに出る</div>
+      <div class="pane env"><b>② 右上：Environment / History</b>作ったデータや変数の一覧、過去に実行した命令の履歴</div>
+      <div class="pane con"><b>③ 左下：Console</b>命令を実行し、結果が表示される場所</div>
+      <div class="pane files"><b>④ 右下：Files / Plots / Packages / Help</b>ファイル、描いた図、パッケージ、ヘルプ</div>
     </div>
   </section>
 
