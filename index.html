@@ -165,6 +165,8 @@ figure.shot { max-width: 760px; margin: 12px 0 16px; }
 .src { font-size: 13px; color: var(--muted); margin: 6px 0 0; max-width: 78ch; line-height: 1.6; }
 .tablewrap { overflow-x: auto; max-width: 78ch; margin: 12px 0; }
 table.vars { border-collapse: collapse; font-size: 14.5px; width: 100%; background: var(--surface); border: 2px solid var(--line); border-radius: 12px; }
+table.vars.nums td { text-align: right; font-family: var(--mono); }
+table.vars.nums thead th:not(:first-child) { text-align: right; }
 table.vars th, table.vars td { text-align: left; padding: 6px 12px; border-bottom: 1px solid rgba(127,127,127,.3); vertical-align: top; }
 table.vars th { font-family: "Zen Maru Gothic", sans-serif; background: var(--accent-soft); }
 .formula { font-family: "Zen Maru Gothic", sans-serif; font-weight: 700; text-align: center; background: var(--surface); border: 2px dashed var(--line); border-radius: 12px; padding: 10px 16px; margin: 12px 0; max-width: 72ch; }
@@ -598,10 +600,68 @@ median(mw$mw2026)</textarea></div>
       <p>代表値が同じでも、値が散らばっている程度（<b>ばらつき</b>）は違うことがある。ばらつきは次のような指標で表す。</p>
       <ul>
         <li><b>範囲</b>：最大値－最小値</li>
-        <li><b>四分位数</b>：小さい順に並べて4等分する位置の値。25％の位置が第1四分位数、50％が中央値、75％が第3四分位数。第3四分位数－第1四分位数を<b>四分位範囲</b>（IQR）という</li>
+        <li><b>四分位数</b>：小さい順に並べて4等分する位置の値。データを小さい方の半分と大きい方の半分に分けたとき、小さい方の半分の中央値が<b>第1四分位数</b>、全体の中央値が第2四分位数（＝中央値）、大きい方の半分の中央値が<b>第3四分位数</b>。第3四分位数－第1四分位数を<b>四分位範囲</b>（IQR）といい、真ん中の半分のデータがどれくらいの幅に収まっているかを表す</li>
         <li><b>標準偏差</b>：各値が平均からどれくらい離れているかを平均的に表したもの（分散の平方根）</li>
       </ul>
     </div>
+    <h3>手で確かめてみよう：2つの店のアルバイトの時給</h3>
+    <div class="prose">
+      <p>アルバイト先が2つあり、それぞれ8人が働いている。時給（円）を小さい順に並べると次のとおりである。</p>
+    </div>
+    <div class="tablewrap">
+      <table class="vars nums">
+        <thead><tr><th></th><th>1人目</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8人目</th></tr></thead>
+        <tbody>
+          <tr><th>店A</th><td>1,300</td><td>1,480</td><td>1,490</td><td>1,500</td><td>1,500</td><td>1,510</td><td>1,520</td><td>1,700</td></tr>
+          <tr><th>店B</th><td>1,300</td><td>1,350</td><td>1,400</td><td>1,450</td><td>1,550</td><td>1,600</td><td>1,650</td><td>1,700</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="quizbox">
+      <span class="label">まず、紙と電卓で計算してみよう</span>
+      <ol>
+        <li>店A・店Bそれぞれの<b>平均値</b>、<b>中央値</b>、<b>範囲</b>は？（8人なので、中央値は4人目と5人目の平均）</li>
+        <li><b>第1四分位数</b>（小さい方の4人の中央値＝2人目と3人目の平均）と<b>第3四分位数</b>（大きい方の4人の中央値＝6人目と7人目の平均）、<b>四分位範囲</b>は？</li>
+        <li>店Bの<b>標準偏差</b>を、次の手順で求めよう。①各人の時給から平均値を引く（<b>偏差</b>）　②偏差を2乗する　③2乗したものの平均を求める（これが<b>分散</b>）　④分散の平方根をとる（これが<b>標準偏差</b>）</li>
+      </ol>
+      平均値・中央値・範囲は2つの店で同じなのに、時給の散らばり方は明らかに違う。その違いを、四分位範囲と標準偏差はとらえられるだろうか。
+    </div>
+    <p class="prose">計算できたら、Rで確かめよう。</p>
+    <div class="code" data-where="スクリプトに書いて実行"><textarea rows="8">shopA <- c(1300, 1480, 1490, 1500, 1500, 1510, 1520, 1700)   # 店Aの時給（円）
+shopB <- c(1300, 1350, 1400, 1450, 1550, 1600, 1650, 1700)   # 店Bの時給（円）
+mean(shopA)
+mean(shopB)
+median(shopA)
+median(shopB)
+max(shopA) - min(shopA)   # 範囲
+max(shopB) - min(shopB)</textarea></div>
+    <p class="prose">四分位数は <code>fivenum()</code> で確かめる。最小値・第1四分位数・中央値・第3四分位数・最大値の5つが、手計算と同じ方法で表示される。</p>
+    <div class="code" data-where="スクリプトに書いて実行" data-pre="shopA"><textarea rows="2">fivenum(shopA)
+fivenum(shopB)</textarea></div>
+    <div class="note">
+      <span class="label">quantile() は手計算と少しずれることがある</span>
+      <code>quantile(shopA)</code> を実行すると、第1四分位数が1,485ではなく1,487.5と表示される。四分位数の求め方にはいくつかの流儀があり、<code>quantile()</code> は「全体の25％の位置」を細かく割り振って計算するためである（<code>IQR()</code> も同じ方法を使う）。データの数が多ければ、差はほとんどなくなる。
+    </div>
+    <p class="prose">標準偏差は、手計算と同じ手順をRでたどってみよう。</p>
+    <div class="code" data-where="スクリプトに書いて実行" data-pre="shopA"><textarea rows="6">d <- shopB - mean(shopB)   # ① 偏差（各人の時給 − 平均値）
+d
+d^2                        # ② 偏差の2乗
+mean(d^2)                  # ③ 2乗の平均 ＝ 分散
+sqrt(mean(d^2))            # ④ 分散の平方根 ＝ 標準偏差
+sd(shopB)                  # Rの sd() で求めた標準偏差</textarea></div>
+    <div class="note">
+      <span class="label">sd() の結果が手計算より少し大きいのはなぜ？</span>
+      手計算では、2乗した偏差の合計を人数（8）で割った。Rの <code>var()</code> と <code>sd()</code> は、人数から1を引いた数（7）で割る。手元のデータを、より大きな集団（例えば、その地域のアルバイト全体）から取り出した一部とみなして、全体の散らばりを推し量るときに使う計算方法である（詳しくは統計学の授業で学ぶ）。データの数が多ければ、差は小さくなる。
+    </div>
+    <div class="tip">
+      <span class="label">考えてみよう</span>
+      <ul>
+        <li>店Aと店Bで、四分位範囲と標準偏差はどちらが大きいか。範囲はどちらも400円なのに、なぜ違いが出るのか（範囲は、両端の2人しか見ていない）</li>
+        <li>店Aの8人目の時給が1,700円ではなく3,000円だったら、平均値・中央値・範囲・四分位範囲・標準偏差はそれぞれどう変わるだろうか。<code>shopA[8] &lt;- 3000</code> で8人目の値を書き換えて確かめよう。外れた値に影響されやすい指標と、されにくい指標はどれか</li>
+      </ul>
+    </div>
+
+    <h3>最低賃金のデータで計算する</h3>
     <div class="code" data-where="スクリプトに書いて実行" data-pre="mw"><textarea rows="5">max(mw$mw2026) - min(mw$mw2026)   # 範囲
 quantile(mw$mw2026)                # 四分位数（0%, 25%, 50%, 75%, 100%）
 IQR(mw$mw2026)                     # 四分位範囲
@@ -905,6 +965,7 @@ async function condText(o) {
 const PRE_CODE = {
   mw: 'mw <- read.csv("https://munetomoando.github.io/labor23/minwage2026.csv")',
   grads: 'grads <- fivethirtyeight::college_recent_grads',
+  shopA: 'shopA <- c(1300, 1480, 1490, 1500, 1500, 1510, 1520, 1700); shopB <- c(1300, 1350, 1400, 1450, 1550, 1600, 1650, 1700)',
   graduates: 'set.seed(1); others <- pmin(pmax(rnorm(1998, mean = 450, sd = 150), 200), 1500); stars <- c(2000000, 330000); graduates <- c(others, stars)',
 };
 const PRE_NEEDS = { grads: ['fivethirtyeight'] };
